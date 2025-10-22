@@ -5,7 +5,7 @@ A demonstration of building asynchronous, long-running AI applications using the
 See the blog post for more details: [Build Long-Running AI Agents on Azure App Service with Microsoft Agent Framework](https://techcommunity.microsoft.com/blog/appsonazureblog/build-long-running-ai-agents-on-azure-app-service-with-microsoft-agent-framework/4463159)
 
 > **NOTE!**  
-> To see an alternative approach to the implementation pattern described in this sample, see (App Service Agent Framework Travel Planner With WebJob)[https://github.com/Azure-Samples/app-service-agent-framework-travel-agent-dotnet-webjob]. That version uses WebJobs for background processing instead of an in-process hosted service. WebJobs are a great alternative for background processing in App Service, providing better separation of concerns, independent restarts, and dedicated logging. To learn more about WebJobs on App Service, see the [Azure App Service WebJobs documentation](https://learn.microsoft.com/azure/app-service/overview-webjobs).
+> To see an alternative approach to the implementation pattern described in this sample, see [App Service Agent Framework Travel Planner With WebJob](https://github.com/Azure-Samples/app-service-agent-framework-travel-agent-dotnet-webjob). That version uses WebJobs for background processing instead of an in-process hosted service. WebJobs are a great alternative for background processing in App Service, providing better separation of concerns, independent restarts, and dedicated logging. To learn more about WebJobs on App Service, see the [Azure App Service WebJobs documentation](https://learn.microsoft.com/azure/app-service/overview-webjobs).
 
 ## What is Agent Framework?
 
