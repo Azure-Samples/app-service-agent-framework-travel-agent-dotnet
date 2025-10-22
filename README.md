@@ -4,6 +4,9 @@ A demonstration of building asynchronous, long-running AI applications using the
 
 See the blog post for more details: [Build Long-Running AI Agents on Azure App Service with Microsoft Agent Framework](https://techcommunity.microsoft.com/blog/appsonazureblog/build-long-running-ai-agents-on-azure-app-service-with-microsoft-agent-framework/4463159)
 
+> **NOTE!**  
+> To see an alternative approach to the implementation pattern described in this sample, see (App Service Agent Framework Travel Planner With WebJob)[https://github.com/Azure-Samples/app-service-agent-framework-travel-agent-dotnet-webjob]. That version uses WebJobs for background processing instead of an in-process hosted service. WebJobs are a great alternative for background processing in App Service, providing better separation of concerns, independent restarts, and dedicated logging. To learn more about WebJobs on App Service, see the [Azure App Service WebJobs documentation](https://learn.microsoft.com/azure/app-service/overview-webjobs).
+
 ## What is Agent Framework?
 
 The [Microsoft Agent Framework](https://learn.microsoft.com/en-us/agent-framework/overview/agent-framework-overview) is a comprehensive platform for building, deploying, and managing AI agents. Unlike simple chat completions, Agent Framework provides:
@@ -111,7 +114,41 @@ API → Return full result
 
 ## Architecture
 
+> 💡 **For detailed architecture information**, see [architecture.md](./architecture.md) for complete diagrams and technical details.
+
 **Async Request-Reply Pattern with Agent Framework:**
+
+```mermaid
+flowchart TB
+    User[User]
+    UI[Web UI - Static HTML]
+    AppService[App Service P0v4 - .NET 9.0 API + Background Worker]
+    ServiceBus[Service Bus - Async Queue]
+    Cosmos[Cosmos DB - Task Status & Results]
+    AI[Azure AI Foundry - GPT-4o + Agent Framework]
+
+    User -->|1. Submit Request| UI
+    UI -->|2. POST /api/travel-plans| AppService
+    AppService -->|3. Queue Message| ServiceBus
+    AppService -->|4. Store Status| Cosmos
+    AppService -->|5. Return TaskId| UI
+    UI -->|6. Poll Status| AppService
+    ServiceBus -->|7. Process Message| AppService
+    AppService -->|8. Generate Plan| AI
+    AI -->|9. Return Itinerary| AppService
+    AppService -->|10. Save Result| Cosmos
+    Cosmos -->|11. Return Complete| UI
+    UI -->|12. Display| User
+
+    style User fill:#e1f5ff
+    style UI fill:#e1f5ff
+    style AppService fill:#fff4e1
+    style ServiceBus fill:#ffe1f5
+    style Cosmos fill:#e1ffe1
+    style AI fill:#f5e1ff
+```
+
+**Text Diagram:**
 
 ```
 ┌──────────┐      POST          ┌────────────────────────────────┐
